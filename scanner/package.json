@@ -1,0 +1,22 @@
+{
+  "name": "hip3-strat-scanner",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Always-on scanner, alert worker and dashboard for Hyperliquid HIP-3 and crypto perps: runs STRAT detection server-side, serves /api/state, and pushes transition-based alerts",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test",
+    "extract": "node scripts/extract_core.js",
+    "extract:check": "node scripts/extract_core.js --check",
+    "parity:extract": "node parity/extract_core.js",
+    "parity:check": "node parity/extract_core.js --check",
+    "smoke": "node scripts/dashboard_smoke.js",
+    "underlying:check": "node --env-file=.env scripts/underlying_history_check.js",
+    "spike:check": "node scripts/spike_threshold_check.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {}
+}

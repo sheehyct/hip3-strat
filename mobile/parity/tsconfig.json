@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node10",
+    "ignoreDeprecations": "6.0",
+    "target": "es2020",
+    "noEmit": false,
+    "noEmitOnError": true,
+    "rootDir": "../src",
+    "outDir": "./build",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "customConditions": null
+  },
+  "include": ["../src/lib/chips.ts", "../src/lib/focus.ts", "../src/lib/patterns.ts"]
+}

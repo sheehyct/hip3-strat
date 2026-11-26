@@ -1,0 +1,7 @@
+# Trim the `railway up` upload: runtime state, VCS, docs, caches.
+.git/
+data/
+docs/
+node_modules/
+__pycache__/
+*.tmp

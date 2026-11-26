@@ -1,0 +1,2 @@
+# Normalize line endings in-repo to LF; checkout uses platform defaults.
+* text=auto

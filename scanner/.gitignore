@@ -1,0 +1,12 @@
+# runtime state (rule dedup, push tokens, telemetry, continuity ledger)
+data/
+# script output (captures, parity runs)
+out/
+node_modules/
+__pycache__/
+*.tmp
+
+# local environment - never commit; .env.template is the committed example
+.env
+.env.*
+!.env.template

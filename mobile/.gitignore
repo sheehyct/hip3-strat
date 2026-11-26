@@ -1,0 +1,58 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env
+.env*.local
+
+# local MCP client config (may carry a token) - never committed
+.mcp.json
+
+# typescript
+*.tsbuildinfo
+
+example
+
+# generated native folders
+/ios
+/android
+
+# Firebase FCM V1 service-account private key (upload via `eas credentials`,
+# NEVER commit). This repository ships no google-services.json; a builder
+# adds their own (see "Push notifications" in the README). It is not ignored
+# here because EAS build archives respect .gitignore - ignoring it would
+# break cloud builds. Keep it out of a public fork if you prefer.
+*firebase-adminsdk*.json
+service-account*.json
+
+# chip parity harness compile output (npm run parity:chips)
+parity/build/

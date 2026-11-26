@@ -1,0 +1,7 @@
+# Keep the image to code + dashboard: no VCS, runtime state, docs, or caches.
+.git
+data/
+docs/
+node_modules/
+__pycache__/
+*.tmp

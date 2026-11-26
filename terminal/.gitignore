@@ -1,0 +1,16 @@
+node_modules/
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+*.log
+.DS_Store
+/android/
+/ios/
+dist-web/
+.export-check/
+shots/
+
+# local secrets (never commit)
+.env
+.env.*

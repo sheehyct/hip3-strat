@@ -1,0 +1,42 @@
+{
+  "ftfcTfs": ["15m", "1h", "4h", "1d"],
+  "coins": {
+    "allow": [],
+    "block": []
+  },
+  "quietHoursUtc": null,
+  "rules": {
+    "live_signal": {
+      "enabled": true,
+      "tfs": ["1d", "1w", "1M"],
+      "kinds": ["rev"]
+    },
+    "invalidation": {
+      "enabled": true
+    },
+    "score_cross": {
+      "enabled": false,
+      "threshold": 60,
+      "rearm": 45
+    },
+    "ftfc_flip": {
+      "enabled": false,
+      "rearmSec": 900
+    },
+    "price_level": {
+      "enabled": true,
+      "levels": {},
+      "rearmPct": 0
+    },
+    "rvol_spike": {
+      "enabled": true,
+      "threshold": 50,
+      "minNotional": 25000
+    },
+    "move_spike": {
+      "enabled": true,
+      "mult": 3,
+      "minPct": 0.75
+    }
+  }
+}
