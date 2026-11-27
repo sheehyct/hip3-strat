@@ -111,7 +111,9 @@ the details.
   about your account, so there is no push when your daily room runs low.
 - The scanner reads Hyperliquid prices. MyFundedPerps fills on its own
   routed venue, so a level can sit a small distance from the fill.
-- Android only. There is no store listing.
+- Android only, and there is no store listing. The app is Expo / React
+  Native, so iOS is a build target rather than a rewrite; it has not been
+  built or tested on an iPhone yet.
 - The terminal has passed its first live orders but not its full live test
   list, and nothing in it has run on a phone.
 - The account stream and rate-limit work is tested, and was checked against
