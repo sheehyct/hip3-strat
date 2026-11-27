@@ -7,9 +7,8 @@ and setups to your phone and watch. A mobile app shows your Hyperliquid and
 MyFundedPerps positions side by side, with a guarded close and reverse. A
 chart-first terminal trades both.
 
-It is a working prototype, built by one trader for his own use. It is an
-independent project: not affiliated with or endorsed by Hyperliquid or
-MyFundedPerps, and nothing here is financial advice or a promise of profit.
+A working prototype, built by one trader for his own use. Independent: not
+affiliated with Hyperliquid or MyFundedPerps.
 
 ![The app on live public market data](docs/media/overview-poster.jpg)
 
@@ -40,8 +39,13 @@ checks. The security model they share is in [SECURITY.md](SECURITY.md).
 
 ![The terminal, desktop layout, demo mode](docs/media/terminal-desktop.png)
 
-Desktop layout in demo mode. Every position and number in this picture is a
-mock; nothing real can be sent from demo mode.
+Desktop layout, demo mode.
+
+The terminal is one chart, one order ticket and one risk header over several
+venues. Each venue is an adapter behind one interface
+([`terminal/src/lib/venue.ts`](terminal/src/lib/venue.ts)): Hyperliquid and
+MyFundedPerps today, plus a mock venue that drives demo mode and the tests.
+Options through a broker API are the next adapter.
 
 ## Try it
 
@@ -84,10 +88,10 @@ the details.
 | Test on a sandbox key first | Sandbox and live are separate hosts. A key is refused unless its prefix matches the host it is used on (`fp_test_` for sandbox, `fp_live_` for live). |
 | Idempotency key on every order | Every write carries a fresh `Idempotency-Key` and `client_order_id`. It is sent once and never resent. If the answer is lost, the app looks the order up by its `client_order_id` instead of sending again. |
 | Read-only access for watching | Two keys. A Read Only key does all the watching, including the account stream. The trade key is read only at the moment of a close or reverse, behind a fingerprint, and is tied to one account. |
-| No keys in code, URLs, logs or commits | Keys are typed in by the user and kept in the phone's secure storage (the terminal's web build keeps them in the tab's memory only). A build check fails if a log line mentions a key or if the app calls any MyFundedPerps path outside its short allowed list. |
+| No keys in code, URLs, logs or commits | No key ships in the app. The user types their own and it is kept in Android's secure storage (the terminal's web build keeps it in the tab's memory only). A build check fails if a log line mentions a key or if the app calls any MyFundedPerps path outside its short allowed list. |
 | Respect the account's rules | The trading policy is read before a reverse. If the account is blocked, reduce-only or restricted from opening exposure, the reverse is refused before anything is sent. |
-| Do not make things worse | A close re-reads the position first and aborts if side or size changed. A reverse opens the other side only after the close reads filled and flat. Any doubt ends flat, never doubled. |
-| Use the account stream, not polling | The clients hold the account stream on the Read Only key, receive-only. A pushed event is a signal to take the normal REST reading again, so nothing unconfirmed is shown or acted on. Checked against the sandbox stream on 26 Nov 2026: the connection, the opening snapshots, the 15-second heartbeat, and order, fill, position and account events. The timed poll stays as a slower fallback. |
+| Do not make things worse | A close re-reads the position first and aborts if side or size changed. A reverse opens the other side only after the close reads filled and flat. If anything is uncertain it stops with the account flat. |
+| Use the account stream, not polling | The clients hold the account stream on the Read Only key, receive-only. A pushed event is a signal to take the normal REST reading again, so nothing unconfirmed is shown or acted on. Verified against the sandbox stream. The timed poll stays as a slower fallback. |
 | Back off on 429 / 503 | Every GET is counted per key. Background reads stop below the limit and wait out `Retry-After`; the reads a close needs are always sent; an order lookup backs off instead of spinning, and still never resends. In tests the terminal's reads fell from 52 a minute to 17 with the stream down and about 7 with it live. |
 
 ## Checks
@@ -123,9 +127,8 @@ the details.
 - Alerts scoped to the tickers MyFundedPerps lists.
 - Finish the terminal's live test list on a challenge account, then cut a
   first release.
-- More venues behind the terminal's one order ticket. Each venue is an
-  adapter behind the same order checks; the goal is one place to trade
-  everything you trade, through your own accounts and keys.
+- More venues behind the terminal's one order ticket: options through a
+  broker API first, then further perpetual venues.
 - A version for traders who do not use The Strat: swap the Strat setups for
   ones more traders already use, such as breaks of the previous day's high
   and low, with moving averages on the chart.

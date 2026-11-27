@@ -104,7 +104,7 @@ figure { margin: 0; }
 .device { width: 100%; max-width: 300px; aspect-ratio: 780 / 1688; background: var(--device); border-radius: 34px; padding: 8px; box-shadow: 0 0 0 1px var(--rule), 0 28px 56px rgba(12, 21, 36, 0.22); }
 .device img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 27px; }
 .cap { font-size: 0.86rem; color: var(--ink-2); text-align: center; max-width: 34ch; }
-.switch .cap { min-height: 4.2em; }
+.switch .cap { min-height: 3em; }
 
 /* ---- sections with a field rail ---------------------------------------- */
 .sec { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 28px; border-top: 1px solid var(--ink); padding-top: 22px; }
@@ -152,6 +152,8 @@ table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 0.9
 th, td { text-align: left; vertical-align: top; padding: 11px 14px 11px 0; border-bottom: 1px solid var(--rule); }
 th { font-family: var(--mono); font-weight: 400; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); border-bottom-color: var(--ink); }
 td:first-child { width: 30%; font-weight: 500; }
+table.t3 td:first-child { width: 22%; }
+table.t3 td { width: 39%; }
 .foot { font-size: 0.86rem; color: var(--ink-2); border-top: 1px solid var(--ink); padding-top: 18px; max-width: none; }
 
 @media (max-width: 860px) {
@@ -162,6 +164,9 @@ td:first-child { width: 30%; font-weight: 500; }
   .heading { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .shots { grid-template-columns: minmax(0, 1fr); }
   .shots figure.phone { max-width: 220px; }
+  /* the venue comparison stays on screen: all three columns fit a phone, no sideways scroll */
+  table.t3 { min-width: 0; font-size: 0.86rem; }
+  table.t3 th, table.t3 td { padding-right: 10px; overflow-wrap: anywhere; }
   .page { gap: 56px; }
 }
 </style>
@@ -177,6 +182,7 @@ td:first-child { width: 30%; font-weight: 500; }
       <a href="#parts">What exists</a>
       <a href="#terminal">Terminal</a>
       <a href="#api">API use</a>
+      <a href="#run">Run it</a>
       <a href="#next">Next</a>
       <a class="gh" href="https://github.com/sheehyct/hip3-strat">GitHub</a>
     </nav>
@@ -189,8 +195,8 @@ td:first-child { width: 30%; font-weight: 500; }
     <div class="copy">
       <span class="field">Builder write-up / November 2026</span>
       <h1>One scanner behind every screen you trade from.</h1>
-      <p class="lede">An always-on scanner watches 260+ Hyperliquid markets and pushes sharp moves, volume spikes, price levels and setups to your phone and watch. A mobile app and a chart-first terminal read the same feed, show Hyperliquid and MyFundedPerps positions side by side, and get you out with checks a rushed tap cannot beat.</p>
-      <p class="muted">A working prototype. I built it for my own trading and use it on a live MyFundedPerps challenge account. It is not affiliated with or endorsed by MyFundedPerps.</p>
+      <p class="lede">An always-on scanner watches 260+ Hyperliquid markets and pushes sharp moves, volume spikes, price levels and setups to your phone and watch. A mobile app and a chart-first terminal read the same feed, show Hyperliquid and MyFundedPerps positions side by side, and put both venues on one order ticket.</p>
+      <p class="muted">A working prototype. I built it for my own trading and use it on a live MyFundedPerps challenge account.</p>
       <div class="actions">
         <a class="btn solid" href="https://github.com/sheehyct/hip3-strat">View the code on GitHub</a>
         <a class="btn" href="#video">Watch 28 seconds</a>
@@ -216,7 +222,7 @@ td:first-child { width: 30%; font-weight: 500; }
         <img data-for="chart" src="media/app-second-chart.png" width="780" height="1688" alt="The second version's chart screen: BTC candles with the scanner's entry, stop and target lines drawn on it." hidden>
         <img data-for="terminal" src="media/terminal-phone.png" width="780" height="1688" alt="The terminal's phone layout in demo mode: a BTC chart with a position tag, a stop-loss line and the daily room and drawdown room in the header." hidden>
       </div>
-      <figcaption class="cap" id="shot-cap">Second version, in testing. The same feed in calmer cards. Live public market data, 26 Nov 2026.</figcaption>
+      <figcaption class="cap" id="shot-cap">Second version, in testing. The same feed in calmer cards.</figcaption>
     </figure>
   </section>
 
@@ -225,8 +231,8 @@ td:first-child { width: 30%; font-weight: 500; }
     <div class="body">
       <div class="stack">
         <h2>The same data, in two looks so far.</h2>
-        <p>The apps never detect anything. Every signal, entry and target comes from the scanner's state feed, and the interface only draws it. So the look is free to change: the second version was built on the same feed and the same safety code, and changed how it reads, not what it says.</p>
-        <p>These two captures were taken seconds apart. Both show BTC on the 15-minute chart with the same signal, entry 61,495 and target 61,837.</p>
+        <p>The apps never detect anything. Every signal, entry and target comes from the scanner's state feed, and the interface only draws it. So the look is free to change: the second version runs on the same feed and the same safety code with a different layout.</p>
+        <p>Both captures show the same BTC signal at the same moment.</p>
       </div>
       <div class="pair">
         <figure>
@@ -250,7 +256,7 @@ td:first-child { width: 30%; font-weight: 500; }
           <div class="node open">Your theme</div>
         </div>
       </div>
-      <p class="note">A firm's own colours, type and layout would be a fourth box on the right. The scanner, the order checks and the tests stay as they are.</p>
+      <p class="note">A firm's own colours, type and layout would be a fourth box on the right. The scanner and the order checks do not change.</p>
     </div>
   </section>
 
@@ -264,7 +270,6 @@ td:first-child { width: 30%; font-weight: 500; }
           <a href="media/hip3-strat-overview.mp4">Download the video</a>
         </video>
       </div>
-      <p class="note">Recorded from the app's own web build on live public market data, 26 Nov 2026. Nothing in it is staged, mocked or generated.</p>
     </div>
   </section>
 
@@ -272,7 +277,7 @@ td:first-child { width: 30%; font-weight: 500; }
     <span class="field">The problem</span>
     <div class="body">
       <h2>A funded account is lost on one move you did not see.</h2>
-      <p>The daily loss limit and the drawdown limit do not care whether you were at the desk. The markets I trade, HIP-3 equity, index and commodity perps and the crypto majors, move at night and on weekends.</p>
+      <p>The daily loss limit and the drawdown limit apply whether or not I am at the desk, and the markets I trade, HIP-3 equity, index and commodity perps and the crypto majors, move at night and on weekends.</p>
       <p>I wanted three things I could not get in one place: alerts that arrive every time, whether or not an app or a browser tab is open; a single screen that shows what I hold on every account; and a way to get out fast from a phone, with enough checks that a fat thumb cannot make things worse.</p>
     </div>
   </section>
@@ -291,6 +296,7 @@ td:first-child { width: 30%; font-weight: 500; }
             <li><strong>Setups.</strong> Daily, weekly and monthly reversal setups with entry, stop and target, and a second alert if the setup fails.</li>
           </ul>
           <p>Every alert fires on a change, once, then stays quiet. Alerts go out as native Android push notifications, which a paired watch mirrors on the wrist, and can also go to ntfy, Discord or Telegram.</p>
+          <p>The scanner reads Hyperliquid prices. MyFundedPerps fills on its own routed venue, so a level can sit a small distance from the fill (about $40 on BTC in my test).</p>
         </div>
         <div class="stack">
           <span class="field">What an alert looks like</span>
@@ -300,7 +306,6 @@ td:first-child { width: 30%; font-weight: 500; }
 <b>[LIVE]</b>  AMD D 2D-2U up
         entry &gt;526.99 stop 498.48 tgt 552.25
 <b>[INVAL]</b> AMD D 2D-2U</pre></div>
-          <p class="note">The message formats the scanner sends. The values here are examples, not a recording.</p>
         </div>
       </div>
 
@@ -313,7 +318,8 @@ td:first-child { width: 30%; font-weight: 500; }
             <li><strong>Close and reverse.</strong> A full close or a reverse of one position, behind a 1.2-second hold and a fingerprint, using a separate trade key scoped to one account.</li>
             <li><strong>Hyperliquid.</strong> The same views for Hyperliquid wallets, across every perp dex.</li>
           </ul>
-          <p>The second version adds a one-tap filter for the tickers MyFundedPerps lists, several MyFundedPerps accounts at once, a performance chart that marks the 00:00 New York daily reset, and tap-to-chart with drawings that persist. It is in testing on my phone and its code is not in the public repository yet.</p>
+          <p>Android only for now, installed as a signed APK.</p>
+          <p>The second version adds a one-tap filter for the tickers MyFundedPerps lists, several MyFundedPerps accounts at once, a performance chart that marks the 00:00 New York daily reset, and tap-to-chart with drawings that persist. In testing on my phone; not in the repo yet.</p>
         </div>
       </div>
 
@@ -325,13 +331,34 @@ td:first-child { width: 30%; font-weight: 500; }
     <div class="body">
       <div class="stack">
         <div class="headline"><h2>One ticket for every account you trade.</h2><span class="chip proto">Prototype</span></div>
-        <p>Trading is turning into an around-the-clock job spread over several accounts. Perpetuals never close. Prop firms now run perpetual challenges with their own loss limits. Index options trade through the night. Each of those arrives with its own screen, its own order ticket and its own way of showing risk.</p>
-        <p>The terminal is the interface over all of it. It is not a broker and holds nothing: your keys stay on your device, every order goes from your device straight to the venue's own API, and the venue keeps the account, the rules and the execution. The terminal supplies the chart, the ticket and the risk header.</p>
+        <p>The terminal is one chart, one order ticket and one risk header over several venues. Hyperliquid and MyFundedPerps are wired today. Options through a broker API are next. Each venue is an adapter, so adding one does not touch the chart, the ticket or the tables.</p>
+        <p>It is not a broker and holds nothing. Keys stay on my device, every order goes from the device straight to the venue's own API, and the venue keeps the account, the rules and the execution.</p>
       </div>
       <figure>
         <img class="wideshot" src="media/terminal-desktop.png" width="2880" height="1800" loading="lazy" alt="The desktop terminal in demo mode: a BTC chart with a position tag and stop-loss line, a watchlist showing which venue lists each market, an order ticket with HL and MFP tabs, and a positions table mixing both venues.">
       </figure>
-      <p class="note">Desktop layout, demo mode. Every position and number in this picture is a mock; nothing real can be sent from demo mode.</p>
+      <p class="note">Desktop layout, demo mode.</p>
+      <div class="heading">
+        <span class="field">One order, two venues</span>
+        <div class="stack">
+          <p>The same order is a different request on every venue. The ticket takes one intent, each adapter turns it into what its venue accepts, and every answer comes back as one of five outcomes: confirmed, pending, partial, rejected or unknown.</p>
+          <div class="scroll">
+            <table class="t3">
+              <thead><tr><th>On the ticket</th><th>Hyperliquid</th><th>MyFundedPerps</th></tr></thead>
+              <tbody>
+                <tr><td>Market order</td><td>No market type. A signed IoC limit priced at the slippage cap.</td><td><code>type: market</code> with an <code>expected_price</code>.</td></tr>
+                <tr><td>Take profit / stop loss</td><td>Separate reduce-only trigger orders, placed once the entry has filled.</td><td>Attached to the entry order, or set on the position.</td></tr>
+                <tr><td>Moving a resting order</td><td><code>modify</code> replaces it with a new order.</td><td><code>PATCH</code> keeps the order's id; the venue floors the size to the market's step.</td></tr>
+                <tr><td>Post-only</td><td><code>Alo</code>.</td><td>Not offered, so the ticket refuses it.</td></tr>
+                <tr><td>Leverage</td><td>A setting per market.</td><td>Sent with each order.</td></tr>
+                <tr><td>A lost answer</td><td>Looked up by <code>cloid</code>. The signed request also expires, so it cannot land late.</td><td>Looked up by <code>client_order_id</code>.</td></tr>
+                <tr><td>Auth</td><td>A signature from an API-wallet key.</td><td>A bearer key, matched to its host by prefix, with an <code>Idempotency-Key</code> on every write.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">The interface is <a href="https://github.com/sheehyct/hip3-strat/blob/main/terminal/src/lib/venue.ts"><code>terminal/src/lib/venue.ts</code></a>. A third implementation, a mock venue, drives demo mode and the tests.</p>
+        </div>
+      </div>
       <div class="cols">
         <div class="stack">
           <span class="field">Today</span>
@@ -343,29 +370,28 @@ td:first-child { width: 30%; font-weight: 500; }
           </ul>
         </div>
         <div class="stack">
-          <span class="field">How a venue plugs in</span>
+          <span class="field">Shared by every venue</span>
           <ul class="plain">
-            <li>Each venue is an adapter behind one interface, so the chart, the ticket and the tables do not know which venue they are talking to.</li>
-            <li>Every adapter sits behind the same order checks: sent once, never resent, a size cap, a slippage cap, and nothing shown as done until the venue confirms it.</li>
-            <li>For a prop firm, that makes it a front end for the firm's own API. The firm brings the accounts and the rules; the trader brings a key.</li>
+            <li>The same order checks sit in front of every adapter: sent once, never resent, a size cap, a slippage cap.</li>
+            <li>Nothing is shown as done until a re-read of the venue shows it.</li>
+            <li>For a prop firm this is a front end over the firm's own API. The firm keeps the accounts, the rules and the execution.</li>
           </ul>
         </div>
         <div class="stack">
-          <span class="field">Why it is still a prototype</span>
+          <span class="field">Status</span>
           <ul class="plain">
-            <li>It has placed and cancelled a live order on a MyFundedPerps account. The rest of its live test list (market orders, exits, closes, reverse) is still open.</li>
-            <li>It runs in a desktop browser on your own machine. The phone layout exists but has not run on a phone.</li>
-            <li>Two venues today. Options and further venues are the direction, not something it does yet.</li>
+            <li>It has placed and cancelled a live order on a MyFundedPerps account. Market orders, exits, closes and reverse are still on the live test list.</li>
+            <li>It runs in a desktop browser on your own machine. The phone layout has not run on a phone yet.</li>
           </ul>
         </div>
       </div>
       <div class="heading">
-        <span class="field">Where I think this goes</span>
+        <span class="field">Options next</span>
         <div class="stack">
-          <p>The regular session is no longer the whole day. SPX, VIX and XSP options already trade overnight, from 8:15 p.m. to 9:25 a.m. Eastern. In October 2026 a first group of single-stock and ETF options gained a pre-market session from 7:30 a.m. and a short post-market one. Perpetuals never close, and prop firms now fund traders on them.</p>
-          <p>Most traders I talk to do not know the overnight option sessions exist yet. A trader in any time zone can already be working several of these markets in one evening, each on a different screen with a different ticket. I think whoever gives that trader one place to do it earns the flow, and that is what this terminal is built toward.</p>
-          <p>Options are the next venue. The market data for it is partly wired through a broker API (Schwab or tastytrade), and the rest goes live once my kids stop kicking my ass and I get an evening to finish it.</p>
-          <p class="note">Session times are Cboe's published hours, Eastern time: <a href="https://www.cboe.com/about/hours/us-options">cboe.com/about/hours/us-options</a>.</p>
+          <p>Options are the next venue, and the reason the ticket is built on adapters. An option order is the same intent with an expiry, a strike and a right added, and a spread adds legs. Every broker takes that in its own shape, which is the translation the two perp adapters already do.</p>
+          <p>I want it on the same ticket because the trading day no longer ends. SPX, VIX and XSP options trade overnight, from 8:15 p.m. to 9:25 a.m. Eastern. Since October 2026 some single-stock and ETF options have a pre-market session from 7:30 a.m. Perpetuals never close, and prop firms now fund traders on them. Most traders I talk to do not know the overnight option sessions exist yet.</p>
+          <p>A trader can already be working an index option, a perp and a funded account in the same evening, on three screens with three tickets. I think whoever puts those on one ticket gets that trader's order flow, and a prop firm could offer it under its own name.</p>
+          <p>The market data for options is partly wired through a broker API (Schwab or tastytrade), and the rest goes live once my kids stop kicking my ass and I get an evening to finish it.</p>
         </div>
       </div>
     </div>
@@ -375,7 +401,7 @@ td:first-child { width: 30%; font-weight: 500; }
     <span class="field">API use</span>
     <div class="body">
       <h2>How it uses the MyFundedPerps API.</h2>
-      <p>REST for every read and write, with the account stream as the signal for when to read. The builders page lists what a build should do; this is where the project stands on each point.</p>
+      <p>REST for every read and write, with the account stream as the signal for when to read.</p>
       <div class="scroll">
         <table>
           <thead><tr><th>Guideline</th><th>What the code does</th></tr></thead>
@@ -383,27 +409,30 @@ td:first-child { width: 30%; font-weight: 500; }
             <tr><td>Test on a sandbox key first</td><td>Sandbox and live are separate hosts. A key is refused unless its prefix matches the host it is used on (<code>fp_test_</code> for sandbox, <code>fp_live_</code> for live).</td></tr>
             <tr><td>Idempotency key on every order</td><td>Every write carries a fresh <code>Idempotency-Key</code> and <code>client_order_id</code>. It is sent once and never resent. If the answer is lost, the app looks the order up by its <code>client_order_id</code> instead of sending again.</td></tr>
             <tr><td>Read-only access for watching</td><td>Two keys. A Read Only key does all the watching, including the account stream. The trade key is read only at the moment of a close or reverse, behind a fingerprint, and is tied to one account.</td></tr>
-            <tr><td>No keys in code, URLs, logs or commits</td><td>Keys are typed in by the user and kept in the phone's secure storage (the terminal's web build keeps them in the tab's memory only). A build check fails if a log line mentions a key or if the app calls any MyFundedPerps path outside its short allowed list.</td></tr>
+            <tr><td>No keys in code, URLs, logs or commits</td><td>No key ships in the app. The user types their own and it is kept in Android's secure storage (the terminal's web build keeps it in the tab's memory only). A build check fails if a log line mentions a key or if the app calls any MyFundedPerps path outside its short allowed list.</td></tr>
             <tr><td>Respect the account's rules</td><td>The trading policy is read before a reverse. If the account is blocked, reduce-only or restricted from opening exposure, the reverse is refused before anything is sent.</td></tr>
-            <tr><td>Do not make things worse</td><td>A close re-reads the position first and aborts if side or size changed. A reverse opens the other side only after the close reads filled and flat. Any doubt ends flat, never doubled.</td></tr>
-            <tr><td>Use the account stream, not polling</td><td><span class="chip proto">Built, not yet released</span> The clients hold the account stream on the Read Only key, receive-only. A pushed event is a signal to take the normal REST reading again, so nothing unconfirmed is shown or acted on. Checked against the sandbox stream on 26 Nov 2026: the connection, the opening snapshots, the 15-second heartbeat, and order, fill, position and account events.</td></tr>
-            <tr><td>Back off on 429 / 503</td><td><span class="chip proto">Built, not yet released</span> Every GET is counted per key. Background reads stop below the limit and wait out <code>Retry-After</code>; the reads a close needs are always sent; an order lookup backs off instead of spinning, and still never resends. In tests the terminal's reads fell from 52 a minute to 17 with the stream down and about 7 with it live. No real 429 has been met yet.</td></tr>
+            <tr><td>Do not make things worse</td><td>A close re-reads the position first and aborts if side or size changed. A reverse opens the other side only after the close reads filled and flat. If anything is uncertain it stops with the account flat.</td></tr>
+            <tr><td>Use the account stream, not polling</td><td><span class="chip proto">Built, not yet released</span> The clients hold the account stream on the Read Only key, receive-only. A pushed event is a signal to take the normal REST reading again, so nothing unconfirmed is shown or acted on. Verified against the sandbox stream.</td></tr>
+            <tr><td>Back off on 429 / 503</td><td><span class="chip proto">Built, not yet released</span> Every GET is counted per key. Background reads stop below the limit and wait out <code>Retry-After</code>; the reads a close needs are always sent; an order lookup backs off instead of spinning, and still never resends. In tests the terminal's reads fell from 52 a minute to 17 with the stream down and about 7 with it live.</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <section class="sec">
-    <span class="field">Not yet</span>
+  <section class="sec" id="run">
+    <span class="field">Run it</span>
     <div class="body">
-      <ul class="plain">
-        <li>The alerts are market alerts (price, volume, setups). They do not yet know about your account, so there is no push when your daily room runs low.</li>
-        <li>The scanner reads Hyperliquid prices. MyFundedPerps fills on its own routed venue, so a level can sit a small distance from the fill (about $40 on BTC in my test).</li>
-        <li>Android only. Installs are a signed APK from a release page, not a store listing.</li>
-        <li>The terminal has passed its first live orders but not its full live test list.</li>
-        <li>The account stream and rate-limit work is built and tested but not in a released build yet, and has not run on a phone.</li>
-      </ul>
+      <h2>Runs locally with no account and no key.</h2>
+      <div class="tape"><pre>git clone https://github.com/sheehyct/hip3-strat
+cd hip3-strat
+
+<b># scanner: dashboard on http://localhost:8787</b>
+cd scanner &amp;&amp; LOG_ONLY=1 node server.js
+
+<b># terminal, demo mode: http://localhost:8088/?mock=1</b>
+cd terminal &amp;&amp; npm ci &amp;&amp; npm run serve</pre></div>
+      <p>The scanner talks only to Hyperliquid's public market data. The terminal's demo mode runs on a mock venue. The mobile app is <code>cd mobile &amp;&amp; npm install &amp;&amp; npx expo start</code>, pointed at a running scanner in Settings.</p>
     </div>
   </section>
 
@@ -415,24 +444,24 @@ td:first-child { width: 30%; font-weight: 500; }
         <li><strong>Account alerts to the watch.</strong> Push when daily room or drawdown room crosses a threshold you set, and when a position opens, closes or is stopped.</li>
         <li><strong>Alerts scoped to MyFundedPerps tickers.</strong> One switch, so the feed only covers what you can trade on the account.</li>
         <li><strong>Finish the terminal's live test list</strong> on a challenge account, then cut a first release.</li>
-        <li><strong>More venues behind the same ticket.</strong> The terminal's goal is one place to trade everything you trade, through your own accounts: further perpetual venues first, then options.</li>
+        <li><strong>More venues behind the same ticket.</strong> Options through a broker API first, then further perpetual venues.</li>
         <li><strong>A version for traders who do not use The Strat.</strong> Swap the Strat setups for ones more traders already use, such as breaks of the previous day's high and low, with moving averages on the chart.</li>
         <li><strong>A themed build.</strong> Ship the second version's look, then make the theme a setting, so a firm or a trader can have their own.</li>
       </ul>
     </div>
   </section>
 
-  <p class="foot">An independent project. Not official MyFundedPerps software, and not affiliated with or endorsed by Hyperliquid or MyFundedPerps. Nothing here is a promise of profit or of passing a challenge. Charts are drawn with TradingView Lightweight Charts. Code: <a href="https://github.com/sheehyct/hip3-strat">github.com/sheehyct/hip3-strat</a>, MIT licence.</p>
+  <p class="foot">An independent project, not affiliated with Hyperliquid or MyFundedPerps. Code: <a href="https://github.com/sheehyct/hip3-strat">github.com/sheehyct/hip3-strat</a>, MIT licence.</p>
 
 </main>
 
 <script>
 (function () {
   var caps = {
-    second: "Second version, in testing. The same feed in calmer cards. Live public market data, 26 Nov 2026.",
-    released: "Released app. The same signals, denser: more markets per screen. Live public market data, 26 Nov 2026.",
+    second: "Second version, in testing. The same feed in calmer cards.",
+    released: "Released app. The same signals, denser: more markets per screen.",
     chart: "Second version, chart screen. The scanner's entry, stop and target are drawn on the candles.",
-    terminal: "Terminal, phone layout, demo mode. Every number here is a mock."
+    terminal: "Terminal, phone layout, demo mode."
   };
   var buttons = document.querySelectorAll(".tabs button");
   var shots = document.querySelectorAll(".switch .device img");
