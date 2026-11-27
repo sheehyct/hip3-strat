@@ -144,6 +144,8 @@ ul.plain { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column
 .wideshot { width: 100%; border-radius: 6px; box-shadow: 0 0 0 1px var(--rule), 0 24px 48px rgba(12, 21, 36, 0.16); }
 .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; border-top: 1px solid var(--rule); padding-top: 20px; }
 .cols ul.plain { font-size: 0.95rem; }
+.heading { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 28px; border-top: 1px solid var(--rule); padding-top: 20px; }
+.heading > .field { padding-top: 5px; }
 
 .scroll { overflow-x: auto; }
 table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 0.94rem; }
@@ -157,6 +159,7 @@ td:first-child { width: 30%; font-weight: 500; }
   .sec { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .part { grid-template-columns: minmax(0, 1fr); }
   .cols { grid-template-columns: minmax(0, 1fr); }
+  .heading { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .shots { grid-template-columns: minmax(0, 1fr); }
   .shots figure.phone { max-width: 220px; }
   .page { gap: 56px; }
@@ -322,7 +325,7 @@ td:first-child { width: 30%; font-weight: 500; }
     <div class="body">
       <div class="stack">
         <div class="headline"><h2>One ticket for every account you trade.</h2><span class="chip proto">Prototype</span></div>
-        <p>Trading is turning into an around-the-clock job spread over several accounts. Perpetuals never close. Prop firms now run perpetual challenges with their own loss limits. Index options trade in extended overnight sessions. Each of those arrives with its own screen, its own order ticket and its own way of showing risk.</p>
+        <p>Trading is turning into an around-the-clock job spread over several accounts. Perpetuals never close. Prop firms now run perpetual challenges with their own loss limits. Index options trade through the night. Each of those arrives with its own screen, its own order ticket and its own way of showing risk.</p>
         <p>The terminal is the interface over all of it. It is not a broker and holds nothing: your keys stay on your device, every order goes from your device straight to the venue's own API, and the venue keeps the account, the rules and the execution. The terminal supplies the chart, the ticket and the risk header.</p>
       </div>
       <figure>
@@ -354,6 +357,15 @@ td:first-child { width: 30%; font-weight: 500; }
             <li>It runs in a desktop browser on your own machine. The phone layout exists but has not run on a phone.</li>
             <li>Two venues today. Options and further venues are the direction, not something it does yet.</li>
           </ul>
+        </div>
+      </div>
+      <div class="heading">
+        <span class="field">Where I think this goes</span>
+        <div class="stack">
+          <p>The regular session is no longer the whole day. SPX, VIX and XSP options already trade overnight, from 8:15 p.m. to 9:25 a.m. Eastern. In October 2026 a first group of single-stock and ETF options gained a pre-market session from 7:30 a.m. and a short post-market one. Perpetuals never close, and prop firms now fund traders on them.</p>
+          <p>Most traders I talk to do not know the overnight option sessions exist yet. A trader in any time zone can already be working several of these markets in one evening, each on a different screen with a different ticket. I think whoever gives that trader one place to do it earns the flow, and that is what this terminal is built toward.</p>
+          <p>Options are the next venue. The market data for it is partly wired through a broker API (Schwab or tastytrade), and the rest goes live once my kids stop kicking my ass and I get an evening to finish it.</p>
+          <p class="note">Session times are Cboe's published hours, Eastern time: <a href="https://www.cboe.com/about/hours/us-options">cboe.com/about/hours/us-options</a>.</p>
         </div>
       </div>
     </div>
