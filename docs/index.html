@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HIP3 STRAT - a scanner, an alert feed and a trading surface</title>
+<meta name="description" content="An always-on market scanner, an alert feed and a trading surface for Hyperliquid HIP-3 perps and MyFundedPerps accounts. A working prototype by an independent builder.">
+<meta property="og:title" content="HIP3 STRAT">
+<meta property="og:description" content="An always-on market scanner, an alert feed and a trading surface for Hyperliquid HIP-3 perps and MyFundedPerps accounts. A working prototype by an independent builder.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="media/terminal-desktop.png">
+<meta name="theme-color" content="#09090b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; each surface is a row of text beside its real screenshot.
+   Single dark look on purpose: it is the product's own theme (zinc, color only as information). */
+:root {
+  color-scheme: dark;
+  --bg: #09090b;
+  --card: #18181b;
+  --line: rgba(255,255,255,0.10);
+  --fg: #fafafa;
+  --body: #d4d4d8;
+  --muted: #a1a1aa;
+  --faint: #71717a;
+  --bull: #00DC82;
+  --bull-bg: rgba(0,220,130,0.12);
+  --bear: #FF3B5C;
+  --warn: #FFB800;
+  --warn-bg: rgba(255,184,0,0.12);
+  --neutral-bg: rgba(255,255,255,0.07);
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+body {
+  background: var(--bg);
+  color: var(--body);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.wrap {
+  max-width: 940px;
+  margin: 0 auto;
+  padding-block: 48px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+h1, h2, h3 { color: var(--fg); margin: 0; text-wrap: balance; line-height: 1.2; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: 1.45rem; font-weight: 600; letter-spacing: -0.01em; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--fg); }
+a:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.stack { display: flex; flex-direction: column; gap: 14px; }
+.lede { font-size: 1.1rem; color: var(--body); }
+.eyebrow {
+  font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); font-weight: 500;
+}
+.chip {
+  display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+  text-transform: uppercase; padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+}
+.chip.live { color: var(--bull); background: var(--bull-bg); }
+.chip.proto { color: var(--warn); background: var(--warn-bg); }
+.chip.plan { color: var(--muted); background: var(--neutral-bg); }
+.headline-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+
+.hero { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; }
+.hero > .stack { flex: 1 1 380px; min-width: 0; gap: 18px; }
+.phone {
+  flex: 0 1 270px; margin: 0; display: flex; flex-direction: column; gap: 10px;
+}
+.phone img {
+  width: 100%; height: auto; display: block;
+  border: 1px solid var(--line); border-radius: 22px;
+}
+figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
+figcaption { font-size: 0.82rem; color: var(--faint); max-width: 68ch; }
+
+.facts { display: flex; flex-wrap: wrap; gap: 8px 28px; padding: 0; margin: 0; list-style: none; }
+.facts li { display: flex; flex-direction: column; }
+.facts .n { font-family: var(--mono); color: var(--fg); font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.facts .l { font-size: 0.8rem; color: var(--muted); }
+
+.surface { display: flex; flex-wrap: wrap; gap: 28px; border-top: 1px solid var(--line); padding-top: 28px; }
+.surface > .stack { flex: 1 1 340px; min-width: 0; }
+.surface > figure { flex: 1 1 340px; min-width: 0; }
+.surface.col { flex-direction: column; flex-wrap: nowrap; }
+.surface.col > .stack { flex: 0 0 auto; }
+.shots { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+.shots > figure.wide { flex: 3 1 420px; min-width: 0; }
+.shots > figure.narrow { flex: 1 1 170px; max-width: 230px; min-width: 0; }
+ul.plain { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 8px; max-width: 68ch; }
+
+.feed {
+  background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+  padding: 14px 16px; overflow-x: auto;
+}
+.feed pre { margin: 0; font-family: var(--mono); font-size: 0.82rem; line-height: 1.75; color: var(--body); white-space: pre; }
+.feed .tag { color: var(--fg); font-weight: 500; }
+
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 0.92rem; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--line); }
+th { color: var(--muted); font-weight: 500; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+td:first-child { color: var(--fg); width: 34%; }
+code { font-family: var(--mono); font-size: 0.86em; color: var(--fg); }
+.foot { font-size: 0.85rem; color: var(--faint); border-top: 1px solid var(--line); padding-top: 20px; }
+
+.topbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.brand { font-family: var(--mono); font-weight: 500; letter-spacing: 0.04em; color: var(--fg); text-decoration: none; }
+.brand b { color: var(--bull); font-weight: 500; }
+.nav { display: flex; flex-wrap: wrap; gap: 18px; font-size: 0.9rem; }
+.nav a { color: var(--muted); text-decoration: none; }
+.nav a:hover { color: var(--fg); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn {
+  display: inline-block; padding: 9px 16px; border-radius: 8px; font-size: 0.92rem; font-weight: 600;
+  text-decoration: none; border: 1px solid var(--line); color: var(--fg); background: var(--card);
+}
+.btn.primary { background: var(--bull); border-color: var(--bull); color: #04130c; }
+.btn:hover { filter: brightness(1.08); }
+video { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; background: #000; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body style="margin:0">
+<div class="wrap">
+
+  <nav class="topbar" aria-label="Site">
+    <a class="brand" href="./">HIP3 <b>STRAT</b></a>
+    <div class="nav">
+      <a href="#what">What exists</a>
+      <a href="#api">API use</a>
+      <a href="#next">What comes next</a>
+      <a href="https://github.com/sheehyct/hip3-strat">GitHub</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="stack">
+      <span class="eyebrow">Builder write-up, November 2026</span>
+      <h1>HIP3 STRAT: a scanner, an alert feed and a trading surface you can run from your pocket</h1>
+      <p class="lede">An always-on market scanner that pushes sharp moves, volume spikes and price levels to your phone and watch, a mobile app that shows your Hyperliquid and MyFundedPerps positions side by side, and a chart-first terminal that trades both.</p>
+      <p>It is a working prototype. I built it for my own trading and use it on a live MyFundedPerps challenge account. It is not affiliated with or endorsed by MyFundedPerps.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://github.com/sheehyct/hip3-strat">View the code on GitHub</a>
+        <a class="btn" href="#video">Watch the 43-second overview</a>
+      </div>
+      <ul class="facts">
+        <li><span class="n">260+</span><span class="l">markets scanned, around the clock</span></li>
+        <li><span class="n">5</span><span class="l">tagged Android releases since July 2026</span></li>
+        <li><span class="n">1,260</span><span class="l">automated tests across scanner, app and terminal</span></li>
+      </ul>
+    </div>
+    <figure class="phone">
+      <img src="media/mobile-screener.png" alt="The mobile screener: a list of market cards, each with price, day change, the live signal, entry and target, and a row of timeframe dots." width="390" height="844">
+      <figcaption>The screener tab on live public market data, 24 Nov 2026 (the app's web build at phone width).</figcaption>
+    </figure>
+  </header>
+
+  <section class="stack" id="video">
+    <h2>The 43-second overview</h2>
+    <video controls preload="metadata" playsinline poster="media/mobile-screener.png">
+      <source src="media/hip3-strat-promo.mp4" type="video/mp4">
+      <a href="media/hip3-strat-promo.mp4">Download the video</a>
+    </video>
+    <p class="foot" style="border-top:0;padding-top:0">Every number on screen comes from a recorded response of the scanner's own state endpoint.</p>
+  </section>
+
+  <section class="stack">
+    <h2>The problem</h2>
+    <p>A funded account is lost on one bad move you did not see. The daily loss limit and the drawdown limit do not care whether you were at the desk. The markets I trade, HIP-3 equity, index and commodity perps and the crypto majors, move at night and on weekends.</p>
+    <p>I wanted three things I could not get in one place: alerts that arrive every time, whether or not an app or a browser tab is open; a single screen that shows what I hold on every account; and a way to get out fast from a phone, with enough checks that a fat thumb cannot make things worse.</p>
+  </section>
+
+  <section class="stack" id="what">
+    <h2>What exists today</h2>
+    <p>Three parts. The scanner does the watching on a server, so the phone never has to stay awake. The app and the terminal are the two places you read it and act on it.</p>
+
+    <div class="surface">
+      <div class="stack">
+        <div class="headline-row"><h3>1. Scanner and alert feed</h3><span class="chip live">Running</span></div>
+        <p>A small server process that watches every HIP-3 market and the Hyperliquid crypto perps, re-checking prices every few seconds. It runs all day, every day.</p>
+        <p>Every alert fires on a change, once, and then stays quiet until the next change. A move that is still in progress does not keep buzzing.</p>
+        <ul class="plain">
+          <li><strong>Sharp moves.</strong> Fires when a market moves more than three times its own normal 15-minute range, with a floor of 0.75%. An unusual 0.8% on an index fires; the same move on a meme coin does not.</li>
+          <li><strong>Volume spikes.</strong> Fires when 15-minute volume runs far above its average, with a minimum dollar size so thin markets do not spam.</li>
+          <li><strong>Price levels.</strong> Your own levels, alerted once per crossing direction.</li>
+          <li><strong>Setups.</strong> Daily, weekly and monthly reversal setups with entry, stop and target, and a second alert if the setup fails.</li>
+        </ul>
+        <p>Alerts go out as native Android push notifications, which a paired watch mirrors on the wrist. There is no separate watch app to install. The same feed can also go to ntfy, Discord or Telegram. You star the tickers you care about and only those alert.</p>
+      </div>
+      <div class="stack">
+        <span class="eyebrow">What an alert looks like</span>
+        <div class="feed"><pre><span class="tag">[SPIKE]</span> NVDA -2.31% in 15m (4.2x its normal range)
+<span class="tag">[RVOL]</span>  SILVER 15m rvol 61 (&gt;= 50)
+<span class="tag">[LEVEL]</span> BTC crossed above 80,000
+<span class="tag">[LIVE]</span>  AMD D 2D-2U up
+        entry &gt;526.99 stop 498.48 tgt 552.25
+<span class="tag">[INVAL]</span> AMD D 2D-2U</pre></div>
+        <figcaption>The message formats the worker sends. The values here are examples, not a recording.</figcaption>
+      </div>
+    </div>
+
+    <div class="surface">
+      <div class="stack">
+        <div class="headline-row"><h3>2. Mobile app</h3><span class="chip live">Released, Android</span></div>
+        <p>The app shown at the top of this page. It renders the scanner's output and adds the account side.</p>
+        <ul class="plain">
+          <li><strong>Screener.</strong> Every market as a card: price, day change, the live signal with entry and target, and trend agreement across timeframes. Filter, sort, star.</li>
+          <li><strong>MyFundedPerps account.</strong> Open positions, refreshed every 30 seconds on a Read Only key. Closed trades become a Performance view and a Trades ledger.</li>
+          <li><strong>Close and reverse.</strong> A full close or a reverse of one position, behind a 1.2-second hold and a fingerprint, using a separate trade key that is scoped to one account.</li>
+          <li><strong>Hyperliquid.</strong> The same views for Hyperliquid wallets, across every perp dex.</li>
+        </ul>
+        <p>A second version is in testing on my phone. It adds a one-tap filter for the tickers MyFundedPerps lists (read from the public market list, no key needed), several MyFundedPerps accounts at once, a performance chart that marks the 00:00 New York daily reset and shows drawdown, and tap-to-chart with drawings that persist.</p>
+      </div>
+    </div>
+
+    <div class="surface col">
+      <div class="stack">
+        <div class="headline-row"><h3>3. Trade terminal</h3><span class="chip proto">Prototype</span></div>
+        <p>A chart-first terminal for the desk, with a phone layout. One watchlist, one chart, and a Hyperliquid / MyFundedPerps switch on the order ticket.</p>
+        <ul class="plain">
+          <li>The header always shows <strong>MFP daily room</strong> and <strong>MFP drawdown room</strong>: how much you can still lose today, and in total, before the account fails.</li>
+          <li>Market and limit orders, take profit and stop loss dragged on the chart, close 25 / 50 / 100%, Flat and Reverse.</li>
+          <li>Resting orders drawn on the chart as price lines.</li>
+        </ul>
+        <p>The first live MyFundedPerps orders went through it on 17 Nov 2026: a limit buy placed, shown resting in both the terminal and on MyFundedPerps, then cancelled. The rest of the live test list (market orders, exits, closes, reverse) is still open.</p>
+      </div>
+      <div class="shots">
+        <figure class="wide">
+          <img src="media/terminal-desktop.png" alt="The desktop terminal: a BTC candlestick chart with a position tag and stop-loss line, a watchlist showing which venue lists each market, an order ticket with HL and MFP tabs, and a positions table mixing both venues." width="2880" height="1800">
+          <figcaption>Desktop layout in demo mode. Every position and number in these two pictures is a mock; nothing real can be sent from demo mode.</figcaption>
+        </figure>
+        <figure class="narrow">
+          <img src="media/terminal-phone.png" alt="The terminal's phone layout: a BTC chart with a position tag, a stop-loss line and a header showing MFP daily room and MFP drawdown room." width="780" height="1688">
+          <figcaption>Phone layout, demo mode.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="stack" id="api">
+    <h2>How it uses the MyFundedPerps API</h2>
+    <p>REST for every read and write, with the account stream as the signal for when to read. The builders page lists what a build should do; this is where the project stands on each point.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Guideline</th><th>What the code does</th></tr></thead>
+        <tbody>
+          <tr><td>Test on a sandbox key first</td><td>Sandbox and live are separate hosts. A key is refused unless its prefix matches the host it is used on (<code>fp_test_</code> for sandbox, <code>fp_live_</code> for live).</td></tr>
+          <tr><td>Idempotency key on every order</td><td>Every write carries a fresh <code>Idempotency-Key</code> and <code>client_order_id</code>. It is sent once and never resent. If the answer is lost, the app looks the order up by its <code>client_order_id</code> instead of sending again.</td></tr>
+          <tr><td>Read-only access for watching</td><td>Two keys. A Read Only key does all the polling. The trade key is read only at the moment of a close or reverse, behind a fingerprint, and is tied to one account. The account stream is held on the Read Only key too.</td></tr>
+          <tr><td>No keys in code, URLs, logs or commits</td><td>Keys are typed in by the user and kept in the phone's secure storage (the terminal's web build keeps them in the tab's memory only). A build check fails the release if a log line mentions a key or if the app calls any MyFundedPerps path outside its short allowed list.</td></tr>
+          <tr><td>Respect the account's rules</td><td>The trading policy is read before a reverse. If the account is blocked, reduce-only or restricted from opening exposure, the reverse is refused before anything is sent.</td></tr>
+          <tr><td>Do not make things worse</td><td>A close re-reads the position first and aborts if side or size changed. A reverse opens the other side only after the close reads filled and flat. Any doubt ends flat, never doubled.</td></tr>
+          <tr><td>Use the account stream, not polling</td><td><span class="chip proto">Built, not yet released</span> All of the clients now hold the account stream on the Read Only key, receive-only. A pushed event is a signal to take the normal REST reading again, so nothing unconfirmed is shown or acted on. Checked against the sandbox stream on 26 Nov 2026: the connection, the opening snapshots, the 15-second heartbeat, and order, fill, position and account events. The timed poll stays as a slower fallback.</td></tr>
+          <tr><td>Back off on 429 / 503</td><td><span class="chip proto">Built, not yet released</span> Every GET is counted per key. Background reads stop below the limit and wait out <code>Retry-After</code>; the reads a close needs are always sent; an order lookup backs off instead of spinning, and still never resends. In tests the terminal's reads fell from 52 a minute to 17 with the stream down and about 7 with it live. No real 429 has been met yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Endpoints in use: accounts, account trading policy, open and closed positions, orders (including lookup by <code>client_order_id</code>), the public market list and market quotes for reads; position close, order create and order cancel for writes; and the account stream, receive-only.</p>
+  </section>
+
+  <section class="stack">
+    <h2>What it does not do yet</h2>
+    <ul class="plain">
+      <li>The alerts are market alerts (price, volume, setups). They do not yet know about your account, so there is no push when your daily room runs low.</li>
+      <li>The scanner reads Hyperliquid prices. MyFundedPerps fills on its own routed venue, so a level can sit a small distance from the fill (about $40 on BTC in my test).</li>
+      <li>Android only. Installs are a signed APK from a release page, not a store listing.</li>
+      <li>The terminal has passed its first live orders but not its full live test list.</li>
+      <li>The account stream and rate-limit work is built and tested but not in a released build yet, and has not run on a phone.</li>
+    </ul>
+  </section>
+
+  <section class="stack" id="next">
+    <h2>What comes next</h2>
+    <ul class="plain">
+      <li><strong>Release the account stream.</strong> Ship the stream and rate-limit work to the phone and the terminal, after a test on a device.</li>
+      <li><strong>Account alerts to the watch.</strong> Push when daily room or drawdown room crosses a threshold you set, and when a position opens, closes or is stopped.</li>
+      <li><strong>Alerts scoped to MyFundedPerps tickers.</strong> One switch, so the feed only covers what you can trade on the account.</li>
+      <li><strong>Finish the terminal's live test list</strong> on a challenge account, then cut a first release.</li>
+      <li><strong>Open it up further.</strong> The code is public now. Next is an installable build other traders can use, at MyFundedPerps or any other firm. That version will swap the setups built on The Strat for ones more traders already use, such as breaks of the previous day's high and low, with moving averages on the chart.</li>
+    </ul>
+  </section>
+
+  <p class="foot">An independent project. Not official MyFundedPerps software. Nothing here is a promise of profit or of passing a challenge. Charts in the terminal are drawn with TradingView Lightweight Charts.</p>
+
+</div>
+</body>
+</html>

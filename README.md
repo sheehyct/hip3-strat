@@ -13,7 +13,7 @@ MyFundedPerps, and nothing here is financial advice or a promise of profit.
 
 ![The mobile screener](docs/media/mobile-screener.png)
 
-A 43-second overview video: [docs/media/hip3-strat-promo.mp4](docs/media/hip3-strat-promo.mp4)
+Project page, with the 43-second overview video: https://sheehyct.github.io/hip3-strat/
 
 ## The problem
 
