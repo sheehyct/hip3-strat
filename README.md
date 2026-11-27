@@ -7,6 +7,10 @@ and setups to your phone and watch. A mobile app shows your Hyperliquid and
 MyFundedPerps positions side by side, with a guarded close and reverse. A
 chart-first terminal trades both.
 
+Alerts are high-priority push messages, so they arrive with the phone locked
+and the screen off. There is no separate watch app: a watch paired to the
+phone shows the same notification.
+
 A working prototype, built by one trader for his own use. Independent: not
 affiliated with Hyperliquid or MyFundedPerps.
 
@@ -123,7 +127,7 @@ the details.
 
 - Release the account stream to the phone and the terminal after a test on
   a device.
-- Account alerts to the watch: a push when daily room or drawdown room
+- Account alerts: the same push, to phone and watch, when daily room or drawdown room
   crosses a threshold you set, and when a position opens, closes or is
   stopped.
 - Alerts scoped to the tickers MyFundedPerps lists.

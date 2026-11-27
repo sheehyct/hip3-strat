@@ -295,7 +295,7 @@ table.t3 td { width: 39%; }
             <li><strong>Price levels.</strong> Your own levels, alerted once per crossing direction.</li>
             <li><strong>Setups.</strong> Daily, weekly and monthly reversal setups with entry, stop and target, and a second alert if the setup fails.</li>
           </ul>
-          <p>Every alert fires on a change, once, then stays quiet. Alerts go out as native Android push notifications, which a paired watch mirrors on the wrist, and can also go to ntfy, Discord or Telegram.</p>
+          <p>Every alert fires on a change, once, then stays quiet. They are sent as high-priority push messages, so they arrive with the phone locked and the screen off. There is no separate watch app: a watch paired to the phone shows the same notification, which is how they reach my wrist today. They can also go to ntfy, Discord or Telegram.</p>
           <p>The scanner reads Hyperliquid prices. MyFundedPerps fills on its own routed venue, so a level can sit a small distance from the fill (about $40 on BTC in my test).</p>
         </div>
         <div class="stack">
@@ -441,7 +441,7 @@ cd terminal &amp;&amp; npm ci &amp;&amp; npm run serve</pre></div>
     <div class="body">
       <ul class="plain">
         <li><strong>Release the account stream</strong> to the phone and the terminal, after a test on a device.</li>
-        <li><strong>Account alerts to the watch.</strong> Push when daily room or drawdown room crosses a threshold you set, and when a position opens, closes or is stopped.</li>
+        <li><strong>Account alerts.</strong> The same push, to phone and watch, when daily room or drawdown room crosses a threshold you set, and when a position opens, closes or is stopped.</li>
         <li><strong>Alerts scoped to MyFundedPerps tickers.</strong> One switch, so the feed only covers what you can trade on the account.</li>
         <li><strong>Finish the terminal's live test list</strong> on a challenge account, then cut a first release.</li>
         <li><strong>More venues behind the same ticket.</strong> Options through a broker API first, then further perpetual venues.</li>
