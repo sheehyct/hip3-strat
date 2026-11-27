@@ -141,6 +141,9 @@ ul.plain { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column
 .shots { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 1fr); gap: 20px; align-items: start; }
 .shots img { border-radius: 6px; box-shadow: 0 0 0 1px var(--rule); }
 .note { font-size: 0.84rem; color: var(--ink-2); max-width: 64ch; }
+.wideshot { width: 100%; border-radius: 6px; box-shadow: 0 0 0 1px var(--rule), 0 24px 48px rgba(12, 21, 36, 0.16); }
+.cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; border-top: 1px solid var(--rule); padding-top: 20px; }
+.cols ul.plain { font-size: 0.95rem; }
 
 .scroll { overflow-x: auto; }
 table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 0.94rem; }
@@ -153,6 +156,7 @@ td:first-child { width: 30%; font-weight: 500; }
   .hero { grid-template-columns: minmax(0, 1fr); }
   .sec { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .part { grid-template-columns: minmax(0, 1fr); }
+  .cols { grid-template-columns: minmax(0, 1fr); }
   .shots { grid-template-columns: minmax(0, 1fr); }
   .shots figure.phone { max-width: 220px; }
   .page { gap: 56px; }
@@ -168,6 +172,7 @@ td:first-child { width: 30%; font-weight: 500; }
       <a href="#interfaces">Interfaces</a>
       <a href="#video">Video</a>
       <a href="#parts">What exists</a>
+      <a href="#terminal">Terminal</a>
       <a href="#api">API use</a>
       <a href="#next">Next</a>
       <a class="gh" href="https://github.com/sheehyct/hip3-strat">GitHub</a>
@@ -309,21 +314,47 @@ td:first-child { width: 30%; font-weight: 500; }
         </div>
       </div>
 
-      <div class="part wide">
+    </div>
+  </section>
+
+  <section class="sec" id="terminal">
+    <span class="field">Terminal</span>
+    <div class="body">
+      <div class="stack">
+        <div class="headline"><h2>One ticket for every account you trade.</h2><span class="chip proto">Prototype</span></div>
+        <p>Trading is turning into an around-the-clock job spread over several accounts. Perpetuals never close. Prop firms now run perpetual challenges with their own loss limits. Index options trade in extended overnight sessions. Each of those arrives with its own screen, its own order ticket and its own way of showing risk.</p>
+        <p>The terminal is the interface over all of it. It is not a broker and holds nothing: your keys stay on your device, every order goes from your device straight to the venue's own API, and the venue keeps the account, the rules and the execution. The terminal supplies the chart, the ticket and the risk header.</p>
+      </div>
+      <figure>
+        <img class="wideshot" src="media/terminal-desktop.png" width="2880" height="1800" loading="lazy" alt="The desktop terminal in demo mode: a BTC chart with a position tag and stop-loss line, a watchlist showing which venue lists each market, an order ticket with HL and MFP tabs, and a positions table mixing both venues.">
+      </figure>
+      <p class="note">Desktop layout, demo mode. Every position and number in this picture is a mock; nothing real can be sent from demo mode.</p>
+      <div class="cols">
         <div class="stack">
-          <div class="headline"><h3>Trade terminal</h3><span class="chip proto">Prototype</span></div>
-          <p>A chart-first terminal for the desk, with a phone layout. One watchlist, one chart, and a Hyperliquid / MyFundedPerps switch on the order ticket. The header always shows <strong>MFP daily room</strong> and <strong>MFP drawdown room</strong>: how much you can still lose today, and in total, before the account fails.</p>
-          <p>The first live MyFundedPerps orders went through it on 17 Nov 2026: a limit buy placed, shown resting in both the terminal and on MyFundedPerps, then cancelled. The rest of the live test list is still open.</p>
+          <span class="field">Today</span>
+          <ul class="plain">
+            <li>Two venues on one order ticket: Hyperliquid and MyFundedPerps, switched with a tab.</li>
+            <li>Market and limit orders, take profit and stop loss dragged on the chart, close 25 / 50 / 100%, Flat and Reverse.</li>
+            <li><strong>MFP daily room</strong> and <strong>MFP drawdown room</strong> always in the header: how much you can still lose today, and in total, before the account fails.</li>
+            <li>One positions table and one watchlist across both venues; resting orders drawn on the chart.</li>
+          </ul>
         </div>
-        <div class="shots">
-          <figure>
-            <img src="media/terminal-desktop.png" width="2880" height="1800" loading="lazy" alt="The desktop terminal in demo mode: a BTC chart with a position tag and stop-loss line, a watchlist, an order ticket with HL and MFP tabs, and a positions table mixing both venues.">
-          </figure>
-          <figure class="phone">
-            <img src="media/terminal-phone.png" width="780" height="1688" loading="lazy" alt="The terminal's phone layout in demo mode.">
-          </figure>
+        <div class="stack">
+          <span class="field">How a venue plugs in</span>
+          <ul class="plain">
+            <li>Each venue is an adapter behind one interface, so the chart, the ticket and the tables do not know which venue they are talking to.</li>
+            <li>Every adapter sits behind the same order checks: sent once, never resent, a size cap, a slippage cap, and nothing shown as done until the venue confirms it.</li>
+            <li>For a prop firm, that makes it a front end for the firm's own API. The firm brings the accounts and the rules; the trader brings a key.</li>
+          </ul>
         </div>
-        <p class="note">Demo mode. Every position and number in these two pictures is a mock; nothing real can be sent from demo mode.</p>
+        <div class="stack">
+          <span class="field">Why it is still a prototype</span>
+          <ul class="plain">
+            <li>It has placed and cancelled a live order on a MyFundedPerps account. The rest of its live test list (market orders, exits, closes, reverse) is still open.</li>
+            <li>It runs in a desktop browser on your own machine. The phone layout exists but has not run on a phone.</li>
+            <li>Two venues today. Options and further venues are the direction, not something it does yet.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -372,6 +403,7 @@ td:first-child { width: 30%; font-weight: 500; }
         <li><strong>Account alerts to the watch.</strong> Push when daily room or drawdown room crosses a threshold you set, and when a position opens, closes or is stopped.</li>
         <li><strong>Alerts scoped to MyFundedPerps tickers.</strong> One switch, so the feed only covers what you can trade on the account.</li>
         <li><strong>Finish the terminal's live test list</strong> on a challenge account, then cut a first release.</li>
+        <li><strong>More venues behind the same ticket.</strong> The terminal's goal is one place to trade everything you trade, through your own accounts: further perpetual venues first, then options.</li>
         <li><strong>A version for traders who do not use The Strat.</strong> Swap the Strat setups for ones more traders already use, such as breaks of the previous day's high and low, with moving averages on the chart.</li>
         <li><strong>A themed build.</strong> Ship the second version's look, then make the theme a setting, so a firm or a trader can have their own.</li>
       </ul>

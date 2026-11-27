@@ -123,6 +123,9 @@ the details.
 - Alerts scoped to the tickers MyFundedPerps lists.
 - Finish the terminal's live test list on a challenge account, then cut a
   first release.
+- More venues behind the terminal's one order ticket. Each venue is an
+  adapter behind the same order checks; the goal is one place to trade
+  everything you trade, through your own accounts and keys.
 - A version for traders who do not use The Strat: swap the Strat setups for
   ones more traders already use, such as breaks of the previous day's high
   and low, with moving averages on the chart.
