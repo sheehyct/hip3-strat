@@ -11,7 +11,7 @@ It is a working prototype, built by one trader for his own use. It is an
 independent project: not affiliated with or endorsed by Hyperliquid or
 MyFundedPerps, and nothing here is financial advice or a promise of profit.
 
-![The mobile screener](docs/media/mobile-screener.png)
+![The app on live public market data](docs/media/overview-poster.jpg)
 
 Project page: https://sheehyct.github.io/hip3-strat/
 
